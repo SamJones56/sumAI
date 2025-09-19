@@ -57,7 +57,7 @@ def get_data(file_path: Path):
     return data
 
 
-root_agent = Agent(
+sum_agent = Agent(
     name="sum_agent",
     model=model,
     description="Takes in log data from T-Pot honey pots and summarises them, emailing summaries",
