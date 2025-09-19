@@ -42,7 +42,7 @@ runner = Runner(
     session_service=session_service_stateful,
 )
 
-new_message = types.Content(role="user", parts=[types.Part(text="What to do")])
+new_message = types.Content(role="user", parts=[types.Part(text="What happened today")])
 
 for event in runner.run(
     user_id=USER_ID,
