@@ -4,7 +4,6 @@ import os
 from datetime import datetime
 from subprocess import run
 import json
-from pathlib import Path
 
 model = LiteLlm(
     model="openrouter/deepseek/deepseek-chat-v3.1:free",
@@ -23,7 +22,7 @@ def get_current_date():
 # https://www.elastic.co/docs/solutions/search/the-search-api
 def pull_data():
     """
-    This tool takes todays date, pulls all elastic JSON data, and writes it to a file in "./log_data/{today}.json"
+    This tool takes todays date, pulls all elastic JSON data, and writes it to a file in "./log_data/{today}.json and returns it"
     """
     today = get_current_date()
     file_path = f"./log_data/{today}.json"
@@ -44,9 +43,10 @@ def pull_data():
     with open(f"{file_path}", "w") as f:
         json.dump(data, f)
     print(f"File write completed")
+    return data
 
 
-def get_data(file_path: Path):
+"""def get_data(file_path: Path):
     """ """
     allowed_dir = "./log_data"
     today = get_current_date()
@@ -55,9 +55,9 @@ def get_data(file_path: Path):
         for line in open(f"file_path", "r"):
             data.append(line.strip())
     return data
+"""
 
-
-sum_agent = Agent(
+root_agent = Agent(
     name="sum_agent",
     model=model,
     description="Takes in log data from T-Pot honey pots and summarises them, emailing summaries",
@@ -71,5 +71,5 @@ sum_agent = Agent(
     - pull_data (use this to read the elastic log data into a file)
     - get_data (use this tool to return all the data saved to a file_path, file_path must be within the "./log_data/" folder)
     """,
-    tools=[get_current_date, pull_data, get_data],
+    tools=[get_current_date, pull_data],
 )
